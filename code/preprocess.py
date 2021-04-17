@@ -26,18 +26,18 @@ def splitUpTrainData(train):
         split_img = np.reshape(np.array(raw_train_imgs[image].split(' ')).astype('float32'), (hp.image_dim, hp.image_dim))
         train_imgs.append(split_img)
 
-    train_imgs = np.array(train_imgs)
+    train_imgs = np.array(train_imgs) / 256
     return train_keypoints, train_imgs
 
 def splitUpTestingData(test):
     test_ids = test[:, 0]
-    raw_test_imgs = test[:, 1:]
+    raw_test_imgs = test[:, -1]
     test_imgs = []
-    for image in range(raw_test_imgs): 
+    for image in range(raw_test_imgs.shape[0]): 
         split_img = np.reshape(np.array(raw_test_imgs[image].split(' ')).astype('float32'), (hp.image_dim, hp.image_dim))
         test_imgs.append(split_img)
 
-    test_imgs = np.array(test_imgs)
+    test_imgs = np.array(test_imgs)/ 255
     return test_ids, np.array(test_imgs)
 
 def getDataWithoutNan(keypts, imgs):
