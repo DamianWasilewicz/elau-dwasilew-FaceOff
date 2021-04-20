@@ -58,3 +58,22 @@ num_classes = 30
 Square dimension of an image
 """
 image_dim = 96
+
+"""
+Indeces for different keypoints
+"""
+left_eye_center = 0
+right_eye_center = 1
+left_eye_inner_corner = 2
+left_eye_outer_corner = 3
+right_eye_inner_corner = 4
+right_eye_outer_corner = 5
+left_eyebrow_inner_end = 6
+left_eyebrow_outer_end = 7
+right_eyebrow_inner_end = 8
+right_eyebrow_outer_end = 9
+nose_tip = 10
+mouth_left_corner = 11
+mouth_right_corner = 12
+mouth_center_top_lip = 13
+mouth_center_bottom_lip = 14

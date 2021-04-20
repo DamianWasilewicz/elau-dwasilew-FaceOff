@@ -1,48 +1,62 @@
 import tensorflow as tf
 from tensorflow.keras.layers import \
     Conv2D, MaxPool2D, Dropout, Flatten, Dense
+from tensorflow.keras.models import Sequential
 
 import hyperparameters as hp
 
 
-class FeaturePointModel(tf.keras.Model):
-    """ Your own neural network model. """
-
-    def __init__(self):
-        super(FeaturePointModel, self).__init__()
-
-        self.optimizer = tf.keras.optimizers.Adam(learning_rate = hp.learning_rate)
-
-        self.architecture = [
-              Conv2D(64,3, activation = 'relu'),
-              MaxPool2D(), 
-              Conv2D(64,3, activation = 'relu'),
-              MaxPool2D(), 
-              Conv2D(64,3, activation = 'relu'),
-              MaxPool2D(), 
-              Conv2D(128,3, activation = 'relu'), 
-              MaxPool2D(), 
-              Conv2D(128,3, activation = 'relu'), 
-              MaxPool2D(), 
-              Conv2D(256,3, activation = 'relu'), 
-              MaxPool2D(),
-              Dropout(rate=0.5), 
-              Flatten(), 
-              Dense(units=(2 * hp.num_classes), activation='relu'),
-              Dense(units=hp.num_classes, activation='softmax')
-              ]
-
-    def call(self, x):
-        """ Passes input image through the network. """
-
-        for layer in self.architecture:
-            x = layer(x)
+def buildModel():
+    FPModel = Sequential()
+    FPModel.add(Conv2D(64, 3, activation='relu', input_shape=(
+        hp.image_dim, hp.image_dim, 1), padding='same'))
+    FPModel.add(MaxPool2D())
+    FPModel.add(Conv2D(64, 3, activation='relu', padding='same'))
+    FPModel.add(MaxPool2D())
+    FPModel.add(Conv2D(64, 3, activation='relu', padding='same'))
+    FPModel.add(MaxPool2D())
+    FPModel.add(Conv2D(128, 3, activation='relu', padding='same'))
+    FPModel.add(MaxPool2D())
+    FPModel.add(Conv2D(128, 3, activation='relu', padding='same'))
+    FPModel.add(MaxPool2D())
+    FPModel.add(Conv2D(256, 3, activation='relu', padding='same'))
+    FPModel.add(MaxPool2D())
+    FPModel.add(Dropout(rate=0.5))
+    FPModel.add(Flatten())
+    FPModel.add(Dense(units=(2 * hp.num_classes),
+                activation='relu', kernel_initializer='normal'))
+    FPModel.add(Dense(units=(2 * hp.num_classes),
+                activation='relu', kernel_initializer='normal'))
+    FPModel.add(Dense(units=hp.num_classes, activation='linear'))
+    FPModel.compile(loss='mean_absolute_error', optimizer='adam',
+                    metrics=['mean_absolute_error', 'accuracy'])
+    return FPModel
 
 
-        return x
 
-    @staticmethod
-    def loss_fn(labels, predictions):
-        """ Loss function for the model. """
+  
 
-        return tf.keras.losses.mean_squared_error(labels, predictions)
+
+    # FPModel = Sequential()
+    # FPModel.add(Conv2D(128, 3, activation='relu', input_shape=(
+    #     hp.image_dim, hp.image_dim, 1), padding='same'))
+    # FPModel.add(MaxPool2D())
+    # FPModel.add(Conv2D(128, 3, activation='relu', padding='same'))
+    # FPModel.add(MaxPool2D())
+    # FPModel.add(Conv2D(128, 3, activation='relu', padding='same'))
+    # FPModel.add(MaxPool2D())
+    # FPModel.add(Conv2D(128, 3, activation='relu', padding='same'))
+    # FPModel.add(MaxPool2D())
+    # FPModel.add(Conv2D(128, 3, activation='relu', padding='same'))
+    # FPModel.add(MaxPool2D())
+    # FPModel.add(Conv2D(256, 3, activation='relu', padding='same'))
+    # FPModel.add(MaxPool2D())
+    # FPModel.add(Dropout(rate=0.5))
+    # FPModel.add(Flatten())
+    # PModel.add(Dense(units=(2 * hp.num_classes),
+    #             activation='relu', kernel_initializer='normal'))
+    # FPModel.add(Dense(units=(2 * hp.num_classes),
+    #             activation='relu', kernel_initializer='normal'))
+    # FPModel.add(Dense(units=(2 * hp.num_classes),
+    #             activation='relu', kernel_initializer='normal'))
+    # FPModel.add(Dense(units=hp.num_classes, activation='linear'))
