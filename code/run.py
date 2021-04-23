@@ -22,7 +22,7 @@ def main():
     trainingData, testingData = getData(
         '../data/training.csv', '../data/test.csv')
 
-    # train_key_pts, train_imgs = splitUpTrainData(trainingData)
+    train_key_pts, train_imgs = splitUpTrainData(trainingData)
     # print("First set of train points", train_key_pts[0])
     # print("First set of images", train_imgs[0])
 
@@ -31,30 +31,30 @@ def main():
     # print("Image dimensions", np.shape(train_imgs))
 
     # print("Number of testing points", train_key_pts.shape[0])
-    # train_key_pts, train_imgs = getDataWithoutNan(train_key_pts, train_imgs)
+    train_key_pts, train_imgs = getDataWithoutNan(train_key_pts, train_imgs)
     # print("Number of testing points without nan", len(train_key_pts))
 
-    # train_key_pts, train_imgs = mirrorData(train_key_pts, train_imgs)
+    train_key_pts, train_imgs = mirrorData(train_key_pts, train_imgs)
     # print("Number of testing points with flipping", train_key_pts.shape[0])
 
-    # train_imgs = np.reshape(train_imgs, (train_imgs.shape[0], train_imgs.shape[1], train_imgs.shape[2], 1))
+    train_imgs = np.reshape(train_imgs, (train_imgs.shape[0], train_imgs.shape[1], train_imgs.shape[2], 1))
     reshaped_test_imgs = np.reshape(
         test_imgs, (test_imgs.shape[0], test_imgs.shape[1], test_imgs.shape[2], 1))
 
     FPModel = buildModel()
     print(FPModel.summary())
 
-    # checkpoint_name = 'Weights-{epoch:03d}--{val_loss:.5f}.hdf5'
-    # checkpoint = ModelCheckpoint(
-    #     checkpoint_name, monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
-    # callbacks_list = [checkpoint]
+    checkpoint_name = 'Weights-{epoch:03d}--{val_loss:.5f}.hdf5'
+    checkpoint = ModelCheckpoint(
+        checkpoint_name, monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
+    callbacks_list = [checkpoint]
 
 
     # train(train_imgs, train_key_pts, FPModel, callbacks_list)
 
 
     loadWeights(FPModel)
-    visualize(test_imgs, reshaped_test_imgs, FPModel)
+    visualizePoints(test_imgs, reshaped_test_imgs, FPModel)
 
     real_time_prediction(FPModel)
 
@@ -62,11 +62,16 @@ def main():
 
 
 
+'''
+Train the model
+'''
 def train(train_imgs, train_key_pts, model, callbacks_list):
     model.fit(train_imgs, train_key_pts, epochs=hp.num_epochs,
               batch_size=hp.batch_size, callbacks=callbacks_list, validation_split=0.2)
 
-
+'''
+Load in weights with best performance
+'''
 def loadWeights(model):
     weights_file = "Weights-001--3.23472.hdf5"
     model.load_weights(weights_file)
@@ -74,16 +79,10 @@ def loadWeights(model):
                   metrics=['mean_absolute_error', 'accuracy'])
 
 
-def test(testingData, model):
-    numCorrect = 0
-    for image in range(testingData.shape[0]):
-        img = np.reshape(testingData[image],
-                         (1, hp.image_dim, hp.image_dim, 1))
-        pred = model.predict(img)
-        # if math.abs(pred - )
-
-
-def visualize(testingData, reshaped_test_imgs, model):
+'''
+plot points onto test examples
+'''
+def visualizePoints(testingData, reshaped_test_imgs, model):
     for image in range(5):
         print("Plotting image")
         plt.imshow(testingData[image])

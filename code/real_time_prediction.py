@@ -8,6 +8,10 @@ import time
 import cv2
 import hyperparameters as hp
 
+'''
+Streams video, makes predictions for facial keypoints and plots them,
+adds filter
+'''
 def real_time_prediction(model):
     print("[INFO] starting video stream...")
     vs = VideoStream(src=0).start()
@@ -29,7 +33,9 @@ def real_time_prediction(model):
         new_image = npframe
         filter_frame = frame
 
-
+        '''
+        Get recognized face
+        '''
         faces = face_cascade.detectMultiScale(gray_img, 1.1, 4)
 
         if (len(faces) > 0):
@@ -108,8 +114,8 @@ def real_time_prediction(model):
 
 
             rainbow = cv2.imread('rainbow_mouth.png', -1)
-            rainbow_height = 100
-            rainbow_width = 100
+            rainbow_height = 80
+            rainbow_width = 80
             rainbow = cv2.resize(rainbow, (rainbow_width, rainbow_height)) 
 
             rw, rh, rd = np.shape(rainbow)
