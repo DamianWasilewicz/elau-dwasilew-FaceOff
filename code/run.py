@@ -22,22 +22,22 @@ def main():
     trainingData, testingData = getData(
         '../data/training.csv', '../data/test.csv')
 
-    train_key_pts, train_imgs = splitUpTrainData(trainingData)
-    # print("First set of train points", train_key_pts[0])
-    # print("First set of images", train_imgs[0])
+    # train_key_pts, train_imgs = splitUpTrainData(trainingData)
+    # # print("First set of train points", train_key_pts[0])
+    # # print("First set of images", train_imgs[0])
 
     test_ids, test_imgs = splitUpTestingData(testingData)
 
-    # print("Image dimensions", np.shape(train_imgs))
+    # # print("Image dimensions", np.shape(train_imgs))
 
-    # print("Number of testing points", train_key_pts.shape[0])
-    train_key_pts, train_imgs = getDataWithoutNan(train_key_pts, train_imgs)
-    # print("Number of testing points without nan", len(train_key_pts))
+    # # print("Number of testing points", train_key_pts.shape[0])
+    # train_key_pts, train_imgs = getDataWithoutNan(train_key_pts, train_imgs)
+    # # print("Number of testing points without nan", len(train_key_pts))
 
-    train_key_pts, train_imgs = mirrorData(train_key_pts, train_imgs)
-    # print("Number of testing points with flipping", train_key_pts.shape[0])
+    # train_key_pts, train_imgs = mirrorData(train_key_pts, train_imgs)
+    # # print("Number of testing points with flipping", train_key_pts.shape[0])
 
-    train_imgs = np.reshape(train_imgs, (train_imgs.shape[0], train_imgs.shape[1], train_imgs.shape[2], 1))
+    # train_imgs = np.reshape(train_imgs, (train_imgs.shape[0], train_imgs.shape[1], train_imgs.shape[2], 1))
     reshaped_test_imgs = np.reshape(
         test_imgs, (test_imgs.shape[0], test_imgs.shape[1], test_imgs.shape[2], 1))
 

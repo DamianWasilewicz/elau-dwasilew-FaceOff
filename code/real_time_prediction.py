@@ -113,26 +113,26 @@ def real_time_prediction(model):
 
 
 
-            rainbow = cv2.imread('rainbow_mouth.png', -1)
-            rainbow_height = 80
-            rainbow_width = 80
-            rainbow = cv2.resize(rainbow, (rainbow_width, rainbow_height)) 
+            # rainbow = cv2.imread('rainbow_mouth.png', -1)
+            # rainbow_height = 80
+            # rainbow_width = 80
+            # rainbow = cv2.resize(rainbow, (rainbow_width, rainbow_height)) 
 
-            rw, rh, rd = np.shape(rainbow)
+            # rw, rh, rd = np.shape(rainbow)
 
-            for rx in range(rw):
-                for ry in range(rh):
-                    if(rainbow[rx][ry][3] != 0):
-                        lip_x = int(ptxs[hp.mouth_center_top_lip])
-                        lip_y = int(ptys[hp.mouth_center_top_lip])
-                        if (counter % 2 == 0):
-                            filter_frame[rx + lip_y - 2][ry + lip_x - 30][0] = rainbow[rx][ry][0]
-                            filter_frame[rx + lip_y - 2][ry + lip_x - 30][1] = rainbow[rx][ry][1]
-                            filter_frame[rx + lip_y - 2][ry + lip_x - 30][2] = rainbow[rx][ry][2]
-                        else:
-                            filter_frame[rx + lip_y - 2][ry + lip_x - 30][2] = rainbow[rx][ry][0]
-                            filter_frame[rx + lip_y - 2][ry + lip_x - 30][1] = rainbow[rx][ry][1]
-                            filter_frame[rx + lip_y - 2][ry + lip_x - 30][0] = rainbow[rx][ry][2]
+            # for rx in range(rw):
+            #     for ry in range(rh):
+            #         if(rainbow[rx][ry][3] != 0):
+            #             lip_x = int(ptxs[hp.mouth_center_top_lip])
+            #             lip_y = int(ptys[hp.mouth_center_top_lip])
+            #             if (counter % 2 == 0):
+            #                 filter_frame[rx + lip_y - 2][ry + lip_x - 30][0] = rainbow[rx][ry][0]
+            #                 filter_frame[rx + lip_y - 2][ry + lip_x - 30][1] = rainbow[rx][ry][1]
+            #                 filter_frame[rx + lip_y - 2][ry + lip_x - 30][2] = rainbow[rx][ry][2]
+            #             else:
+            #                 filter_frame[rx + lip_y - 2][ry + lip_x - 30][2] = rainbow[rx][ry][0]
+            #                 filter_frame[rx + lip_y - 2][ry + lip_x - 30][1] = rainbow[rx][ry][1]
+            #                 filter_frame[rx + lip_y - 2][ry + lip_x - 30][0] = rainbow[rx][ry][2]
 
 
         # print("Prediction pts shape", np.shape(prd))
@@ -142,6 +142,7 @@ def real_time_prediction(model):
         cv2.imshow("Frame", frame)
         cv2.imshow("SecondFrame", new_image)
         cv2.imshow("FilterFrame", filter_frame)
+        # cv2.imshow("ThirdFrame", bounding_box)
         key = cv2.waitKey(1) & 0xFF
         # if the `q` key was pressed, break from the loop
         if key == ord("q"):
